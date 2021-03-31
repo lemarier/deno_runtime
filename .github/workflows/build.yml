@@ -1,0 +1,22 @@
+name: build artifacts
+on: push
+
+jobs:
+  build-artifacs:
+    runs-on: ${{ matrix.platform }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-2019]
+    steps:
+      - uses: actions/checkout@v2
+      - name: install stable
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Log versions
+        run: |
+          rustc --version
+          cargo --version
+      - run: cargo build
